@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
+import InscriptionEleve from './InscriptionEleve'
 
 export default function Dashboard({ user, profil, onLogout }) {
+  const [page, setPage] = useState('dashboard')
   const [stats, setStats] = useState({
     eleves: 0,
     monitrices: 0,
@@ -41,7 +43,14 @@ export default function Dashboard({ user, profil, onLogout }) {
     })
     setLoading(false)
   }
-
+if (page === 'inscription-eleve') {
+  return (
+    <InscriptionEleve
+      onRetour={() => setPage('dashboard')}
+      onSuccess={() => { setPage('dashboard'); fetchStats(); }}
+    />
+  )
+}
   return (
     <div style={styles.wrap}>
 
@@ -133,7 +142,7 @@ export default function Dashboard({ user, profil, onLogout }) {
             <div style={styles.section}>
               <div style={styles.sectionTitle}>⚡ Actions rapides</div>
               <div style={styles.actionsGrid}>
-                <div style={styles.actionCard}>
+                <div style={styles.actionCard} onClick={() => setPage('inscription-eleve')}>
                   <div style={styles.actionIcon}>👧</div>
                   <div style={styles.actionLabel}>Inscrire un élève</div>
                   <div style={styles.actionSub}>Ajouter un nouvel élève</div>
