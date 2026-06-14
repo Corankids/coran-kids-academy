@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import InscriptionEleve from './InscriptionEleve'
+import AjoutMonitrice from './AjoutMonitrice'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -46,6 +47,14 @@ export default function Dashboard({ user, profil, onLogout }) {
 if (page === 'inscription-eleve') {
   return (
     <InscriptionEleve
+      onRetour={() => setPage('dashboard')}
+      onSuccess={() => { setPage('dashboard'); fetchStats(); }}
+    />
+  )
+}
+if (page === 'ajout-monitrice') {
+  return (
+    <AjoutMonitrice
       onRetour={() => setPage('dashboard')}
       onSuccess={() => { setPage('dashboard'); fetchStats(); }}
     />
@@ -147,7 +156,7 @@ if (page === 'inscription-eleve') {
                   <div style={styles.actionLabel}>Inscrire un élève</div>
                   <div style={styles.actionSub}>Ajouter un nouvel élève</div>
                 </div>
-                <div style={styles.actionCard}>
+                <div style={styles.actionCard} onClick={() => setPage('ajout-monitrice')}>
                   <div style={styles.actionIcon}>👩‍🏫</div>
                   <div style={styles.actionLabel}>Ajouter une monitrice</div>
                   <div style={styles.actionSub}>Créer un compte monitrice</div>
