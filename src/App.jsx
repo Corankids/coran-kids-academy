@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from './supabase'
 import Dashboard from './pages/Dashboard'
 import DashboardMonitrice from './pages/DashboardMonitrice'
+import DashboardParent from './pages/DashboardParent'
 
 export default function App() {
   const [email, setEmail] = useState('')
@@ -57,6 +58,9 @@ if (user && profil) {
   }
   if (profil.role === 'monitrice') {
     return <DashboardMonitrice user={user} profil={profil} onLogout={handleLogout} />
+  }
+  if (profil.role === 'parent') {
+  return <DashboardParent user={user} profil={profil} onLogout={handleLogout} />
   }
 }
 
