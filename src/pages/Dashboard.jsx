@@ -3,6 +3,7 @@ import { supabase } from '../supabase'
 import InscriptionEleve from './InscriptionEleve'
 import AjoutMonitrice from './AjoutMonitrice'
 import ListeEleves from './ListeEleves'
+import Presences from './Presences'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -64,6 +65,13 @@ if (page === 'ajout-monitrice') {
 if (page === 'liste-eleves') {
   return (
     <ListeEleves
+      onRetour={() => setPage('dashboard')}
+    />
+  )
+}
+if (page === 'presences') {
+  return (
+    <Presences
       onRetour={() => setPage('dashboard')}
     />
   )
@@ -179,7 +187,7 @@ if (page === 'liste-eleves') {
                   <div style={styles.actionLabel}>Nouvelle annonce</div>
                   <div style={styles.actionSub}>Informer les familles</div>
                 </div>
-                <div style={styles.actionCard}>
+                <div style={styles.actionCard} onClick={() => setPage('presences')}>
                   <div style={styles.actionIcon}>📊</div>
                   <div style={styles.actionLabel}>Voir les présences</div>
                   <div style={styles.actionSub}>Feuille du jour</div>
