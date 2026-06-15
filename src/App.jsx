@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from './supabase'
 import Dashboard from './pages/Dashboard'
+import DashboardMonitrice from './pages/DashboardMonitrice'
 
 export default function App() {
   const [email, setEmail] = useState('')
@@ -50,11 +51,14 @@ export default function App() {
   }
 
   // Redirection selon le rôle
-  if (user && profil) {
-    if (profil.role === 'direction') {
-      return <Dashboard user={user} profil={profil} onLogout={handleLogout} />
-    }
+if (user && profil) {
+  if (profil.role === 'direction') {
+    return <Dashboard user={user} profil={profil} onLogout={handleLogout} />
   }
+  if (profil.role === 'monitrice') {
+    return <DashboardMonitrice user={user} profil={profil} onLogout={handleLogout} />
+  }
+}
 
   // Écran de connexion
   return (
