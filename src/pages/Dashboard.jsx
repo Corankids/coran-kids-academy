@@ -5,6 +5,7 @@ import AjoutMonitrice from './AjoutMonitrice'
 import ListeEleves from './ListeEleves'
 import Presences from './Presences'
 import Annonces from './Annonces'
+import Paiements from './Paiements'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -82,6 +83,13 @@ if (page === 'annonces') {
     <Annonces
       onRetour={() => setPage('dashboard')}
       profil={profil}
+    />
+  )
+}
+if (page === 'paiements') {
+  return (
+    <Paiements
+      onRetour={() => setPage('dashboard')}
     />
   )
 }
@@ -200,6 +208,11 @@ if (page === 'annonces') {
                   <div style={styles.actionIcon}>📊</div>
                   <div style={styles.actionLabel}>Voir les présences</div>
                   <div style={styles.actionSub}>Feuille du jour</div>
+                </div>
+                <div style={styles.actionCard} onClick={() => setPage('paiements')}>
+                  <div style={styles.actionIcon}>💰</div>
+                  <div style={styles.actionLabel}>Paiements</div>
+                  <div style={styles.actionSub}>Gérer les frais de scolarité</div>
                 </div>
               </div>
             </div>
