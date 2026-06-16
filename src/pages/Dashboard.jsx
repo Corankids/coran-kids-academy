@@ -4,6 +4,7 @@ import InscriptionEleve from './InscriptionEleve'
 import AjoutMonitrice from './AjoutMonitrice'
 import ListeEleves from './ListeEleves'
 import Presences from './Presences'
+import Annonces from './Annonces'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -73,6 +74,14 @@ if (page === 'presences') {
   return (
     <Presences
       onRetour={() => setPage('dashboard')}
+    />
+  )
+}
+if (page === 'annonces') {
+  return (
+    <Annonces
+      onRetour={() => setPage('dashboard')}
+      profil={profil}
     />
   )
 }
@@ -182,7 +191,7 @@ if (page === 'presences') {
                   <div style={styles.actionLabel}>Ajouter une monitrice</div>
                   <div style={styles.actionSub}>Créer un compte monitrice</div>
                 </div>
-                <div style={styles.actionCard}>
+                <div style={styles.actionCard} onClick={() => setPage('annonces')}>
                   <div style={styles.actionIcon}>📢</div>
                   <div style={styles.actionLabel}>Nouvelle annonce</div>
                   <div style={styles.actionSub}>Informer les familles</div>
