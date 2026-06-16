@@ -6,6 +6,7 @@ import ListeEleves from './ListeEleves'
 import Presences from './Presences'
 import Annonces from './Annonces'
 import Paiements from './Paiements'
+import Certificats from './Certificats'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -89,6 +90,13 @@ if (page === 'annonces') {
 if (page === 'paiements') {
   return (
     <Paiements
+      onRetour={() => setPage('dashboard')}
+    />
+  )
+}
+if (page === 'certificats') {
+  return (
+    <Certificats
       onRetour={() => setPage('dashboard')}
     />
   )
@@ -213,6 +221,11 @@ if (page === 'paiements') {
                   <div style={styles.actionIcon}>💰</div>
                   <div style={styles.actionLabel}>Paiements</div>
                   <div style={styles.actionSub}>Gérer les frais de scolarité</div>
+                </div>
+                <div style={styles.actionCard} onClick={() => setPage('certificats')}>
+                  <div style={styles.actionIcon}>📜</div>
+                  <div style={styles.actionLabel}>Certificats</div>
+                  <div style={styles.actionSub}>Mémorisation du Coran</div>
                 </div>
               </div>
             </div>

@@ -90,25 +90,34 @@ export default function DashboardMonitrice({ user, profil, onLogout }) {
     await fetchHifzEleve(eleve.id)
     setPage('hifz')
   }
-
   async function updateHifz(sourateId, statut, niveauMaitrise) {
     const existing = hifzEleve.find(h => h.sourate_id === sourateId)
+    
+    const hifzRecord = {
+      eleve_id: eleveSelectionne.id,
+      sourate_id: sourateId,
+      statut: statut,
+      niveau_maitrise: niveauMaitrise || null,
+      date_debut: statut !== 'non_commence' ? new Date().toISOString().split('T')[0] : null,
+      date_memorisation: statut === 'memorise' ? new Date().toISOString().split('T')[0] : null,
+      versets_memorises: 0,
+      notes: null,
+    }
+
     if (existing) {
-      await supabase
+      const { error } = await supabase
         .from('hifz')
-        .update({ statut, niveau_maitrise: niveauMaitrise, updated_at: new Date() })
+        .update({
+          statut: statut,
+          niveau_maitrise: niveauMaitrise || null,
+        })
         .eq('id', existing.id)
+      if (error) console.error('Update error:', error)
     } else {
-      await supabase
+      const { error } = await supabase
         .from('hifz')
-        .insert([{
-          eleve_id: eleveSelectionne.id,
-          sourate_id: sourateId,
-          statut,
-          niveau_maitrise: niveauMaitrise,
-          date_debut: statut !== 'non_commence' ? new Date().toISOString().split('T')[0] : null,
-          date_memorisation: statut === 'memorise' ? new Date().toISOString().split('T')[0] : null,
-        }])
+        .insert([hifzRecord])
+      if (error) console.error('Insert error:', error)
     }
     await fetchHifzEleve(eleveSelectionne.id)
   }
