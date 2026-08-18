@@ -34,7 +34,7 @@ export default function AjoutParent({ onRetour, onSuccess }) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  async function handleSubmit(e) {
+async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -51,43 +51,30 @@ export default function AjoutParent({ onRetour, onSuccess }) {
       return
     }
 
-    // 2. Attendre 2 secondes que le compte soit bien créé
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    // 2. Attendre que le compte soit bien créé
+    await new Promise(resolve => setTimeout(resolve, 3000))
 
-    const userId = authData.user.id
+    // 3. Utiliser la fonction SQL pour créer le profil et lier l'élève
+    const { error: fnError } = await supabase.rpc('create_parent', {
+      p_email: form.email,
+      p_password: form.password,
+      p_prenom: form.prenom,
+      p_nom: form.nom,
+      p_telephone: form.telephone,
+      p_eleve_id: form.eleve_id || null,
+    })
 
-    // 3. Créer le profil dans utilisateurs
-    const { error: profilError } = await supabase
-      .from('utilisateurs')
-      .insert([{
-        id: userId,
-        role: 'parent',
-        prenom: form.prenom,
-        nom: form.nom,
-        telephone: form.telephone,
-        whatsapp: form.whatsapp || form.telephone,
-        actif: true,
-      }])
-
-    if (profilError) {
-      setError('Erreur création profil : ' + profilError.message)
+    if (fnError) {
+      setError('Erreur création profil : ' + fnError.message)
       setLoading(false)
       return
-    }
-
-    // 4. Lier le parent à l'élève
-    if (form.eleve_id) {
-      await supabase
-        .from('eleves')
-        .update({ parent_id: userId })
-        .eq('id', form.eleve_id)
     }
 
     setSuccess(true)
     setLoading(false)
     setTimeout(() => onSuccess(), 2000)
   }
-
+  
   if (success) {
     return (
       <div style={styles.wrap}>
