@@ -7,6 +7,7 @@ import Presences from './Presences'
 import Annonces from './Annonces'
 import Paiements from './Paiements'
 import Certificats from './Certificats'
+import AjoutParent from './AjoutParent'
 
 export default function Dashboard({ user, profil, onLogout }) {
   const [page, setPage] = useState('dashboard')
@@ -98,6 +99,14 @@ if (page === 'certificats') {
   return (
     <Certificats
       onRetour={() => setPage('dashboard')}
+    />
+  )
+}
+if (page === 'ajout-parent') {
+  return (
+    <AjoutParent
+      onRetour={() => setPage('dashboard')}
+      onSuccess={() => { setPage('dashboard'); fetchStats(); }}
     />
   )
 }
@@ -226,6 +235,11 @@ if (page === 'certificats') {
                   <div style={styles.actionIcon}>📜</div>
                   <div style={styles.actionLabel}>Certificats</div>
                   <div style={styles.actionSub}>Mémorisation du Coran</div>
+                </div>
+                <div style={styles.actionCard} onClick={() => setPage('ajout-parent')}>
+                  <div style={styles.actionIcon}>👨‍👩‍👧</div>
+                  <div style={styles.actionLabel}>Ajouter un parent</div>
+                  <div style={styles.actionSub}>Créer un compte parent</div>
                 </div>
               </div>
             </div>
